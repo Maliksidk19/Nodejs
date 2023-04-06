@@ -16,13 +16,27 @@ const connectToDatabase = async () => {
   }
 };
 
+// const pipeline = [
+//   { $match: { balance: { $lt: 10000000 } } },
+//   {
+//     $group: {
+//       _id: "$account_type",
+//       total_balance: { $sum: "$balance" },
+//       avg_balance: { $avg: "$balance" },
+//     },
+//   },
+// ];
+
 const pipeline = [
-  { $match: { balance: { $lt: 10000000 } } },
+  { $match: { account_type: "Manager", balance: { $gte: 15000 } } },
+  { $sort: { balance: -1 } },
   {
-    $group: {
-      _id: "$account_type",
-      total_balance: { $sum: "$balance" },
-      avg_balance: { $avg: "$balance" },
+    $project: {
+      _id: 0,
+      account_type: 1,
+      account_id: 1,
+      balance: 1,
+      gbp_balance: { $divide: ["$balance", 1.3] },
     },
   },
 ];
