@@ -26,6 +26,11 @@ const main = async () => {
   try {
     await connectToDatabase();
 
+    // let result = await collection.updateOne(documentToUpdate, update);
+    // result.modifiedCount === 1
+    //   ? console.log("Updated one documents")
+    //   : console.log("No document updated");
+
     let result = await collection.updateMany(documentsToUpdate, update);
     result.modifiedCount > 0
       ? console.log(`Updated ${result.modifiedCount} documents`)
